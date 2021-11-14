@@ -1,71 +1,68 @@
-# mysql-deployment.yaml
 apiVersion: v1
 kind: Service
-metadata: 
+metadata:
   name: wordpress-mysql
-  namespace: wp
-  labels: 
-    app: wordpress-mysql
-  annotations: 
-     service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
-spec: 
-  ports: 
+  labels:
+    app: wordpress
+spec:
+  ports:
     - port: 3306
-  selector: 
+  selector:
     app: wordpress
     tier: mysql
-  type: LoadBalancer
+  clusterIP: None
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
-metadata: 
+metadata:
   name: mysql-pv-claim
-  namespace: wp
-  labels: 
+  labels:
     app: wordpress
-spec: 
-  accessModes: 
+spec:
+  accessModes:
     - ReadWriteOnce
-  resources: 
-    requests: 
+  storageClassName: efs-sc
+  resources:
+    requests:
       storage: 20Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: wordpress-mysql
-  namespace: wp
-  labels: 
+  labels:
     app: wordpress
-spec: 
-  selector: 
-    matchLabels: 
+spec:
+  selector:
+    matchLabels:
       app: wordpress
       tier: mysql
-  strategy: 
+  strategy:
     type: Recreate
-  template: 
-    metadata: 
-      labels: 
+  template:
+    metadata:
+      labels:
         app: wordpress
         tier: mysql
-    spec: 
-      containers: 
-      - image: mysql:8.0
+    spec:
+      containers:
+      - image: mysql:5.6
         name: mysql
-        env: 
+        env:
         - name: MYSQL_ROOT_PASSWORD
-          valueFrom: 
-            secretKeyRef: 
+          valueFrom:
+            secretKeyRef:
               name: mysql-pass
               key: password
-        ports: 
+        ports:
         - containerPort: 3306
           name: mysql
-        volumeMounts: 
+        volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
-      volumes: 
+      volumes:
       - name: mysql-persistent-storage
-        persistentVolumeClaim: 
+        persistentVolumeClaim:
           claimName: mysql-pv-claim
+      nodeSelector:
+        alpha.eksctl.io/nodegroup-name: dbNode
