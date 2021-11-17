@@ -125,6 +125,23 @@ kubectl apply -f Jenkins/jenkins-sa.yaml
 
 sleep 5
 
+# jenkins DNS 세팅용
+if [[ `grep "hostzone" ~/.zshrc` ]];
+then
+  hostzone=`grep "hostzone" ~/.zshrc | cut -f 2 -d "="`
+else
+  hostzone=`grep "hostzone" ~/.bashrc | cut -f 2 -d "="`  
+fi
+
+hostzoneId=`aws route53 list-hosted-zones | jq -r '.HostedZones[] | select(.Name=="'${hostzone}'.") | .Id'`
+ACM_ARN=`aws acm list-certificates | jq -r '.CertificateSummaryList | select(.[].DomainName=="'${hostzone}'") | .[].CertificateArn'`
+
+echo ''
+echo 'Domain = '${hostzone}
+echo 'Domain_Id = '${hostzoneId}
+echo 'ACM ARN = '${ACM_ARN}
+echo ''
+
 ###### jenkins-values.yaml 생성
 cat > Jenkins/jenkins-values.yaml <<EOF
 ---
@@ -163,21 +180,31 @@ controller:
   runAsUser: 1000
   fsGroup: 1000
   securityContextCapabilities: {}
-  servicePort: 8080
+  servicePort: 80
   targetPort: 8080
-  serviceType: LoadBalancer
+  serviceType: "NodePort"
   serviceExternalTrafficPolicy:
-  serviceAnnotations: {}
+  serviceAnnotations: 
+    external-dns.alpha.kubernetes.io/hostname: jenkins.${hostzone}
   ingress:
     enabled: true
-    paths: 
+    paths: []
     apiVersion: networking.k8s.io/v1
     labels: {}
+  #    app: jenkins-ingress
     annotations:
+  # Route53 서비스용 annotation 추가
+      external-dns.alpha.kubernetes.io/hostname: jenkins.${hostzone}
       kubernetes.io/ingress.class: alb
       alb.ingress.kubernetes.io/scheme: internet-facing
-      alb.ingress.kubernetes.io/target-type: ip
-    hostName:
+      alb.ingress.kubernetes.io/target-type: instance
+      alb.ingress.kubernetes.io/certificate-arn: ${ACM_ARN}
+      alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08
+      alb.ingress.kubernetes.io/backend-protocol: HTTP
+      alb.ingress.kubernetes.io/healthcheck-path: /login
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
+      alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
+    hostName: jenkins.${hostzone}
     tls:
   secondaryingress:
     enabled: false
@@ -185,7 +212,7 @@ controller:
     apiVersion: extensions/v1beta1
     labels: {}
     annotations: {}
-    hostName:
+    hostName: 
     tls:
   statefulSetLabels: {}
   serviceLabels: {}
@@ -199,6 +226,7 @@ controller:
       periodSeconds: 10
       timeoutSeconds: 5
       failureThreshold: 12
+      initialDelaySeconds: 60
     livenessProbe:
       failureThreshold: 5
       httpGet:
@@ -206,13 +234,15 @@ controller:
         port: http
       periodSeconds: 10
       timeoutSeconds: 5
+      initialDelaySeconds: 120 # https://github.com/kubernetes/kubernetes/issues/62594 참고
     readinessProbe:
       failureThreshold: 3
       httpGet:
         path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
         port: http
       periodSeconds: 10
-      timeoutSeconds: 5
+      timeoutSeconds: 10
+      initialDelaySeconds: 60
   podDisruptionBudget:
     enabled: false
     apiVersion: "policy/v1beta1"
@@ -229,9 +259,11 @@ controller:
     defaultCrumbIssuer:
       enabled: true
       proxyCompatability: true
-  agentListenerServiceType: "ClusterIP"
+  agentListenerServiceType: "NodePort"
   agentListenerLoadBalancerIP:
   agentListenerServiceAnnotations: {}
+#    service.beta.kubernetes.io/aws-load-balancer-internal: "True"
+#    service.beta.kubernetes.io/load-balancer-source-ranges: "172.0.0.0/8, 10.0.0.0/8"
   loadBalancerSourceRanges:
     - 0.0.0.0/0
   extraPorts: []
@@ -277,7 +309,8 @@ controller:
       sshTcpPort: 1044
     other: []
   schedulerName: ''
-  nodeSelector: {}
+  nodeSelector: 
+    alpha.eksctl.io/nodegroup-name: JenkinsNode
   terminationGracePeriodSeconds:
   terminationMessagePath:
   terminationMessagePolicy:
@@ -386,10 +419,18 @@ agent:
   alwaysPullImage: false
   podRetention: "Never"
   showRawYaml: true
-  volumes: []
-  workspaceVolume: {}
+  volumes: 
+  - type: PVC
+    claimName: jenkins-pvc
+    mountPath: /home/jenkins/agent
+    readOnly: false
+  workspaceVolume: 
+    type: PVC
+    claimName: jenkins-pvc
+    readOnly: false
   envVars: []
-  nodeSelector: {}
+  nodeSelector: 
+    alpha.eksctl.io/nodegroup-name: JenkinsNode
   command:
   args: "\${computer.jnlpmac} \${computer.name}"
   sideContainerName: "jnlp"
