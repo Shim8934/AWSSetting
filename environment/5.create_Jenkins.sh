@@ -4,6 +4,20 @@
 
 # Jenkins Pod 배포
 
+<<<<<<< HEAD
+=======
+# ECR 레지스트리 작업 권한 노드에 추가
+INS_NUM=`aws iam list-roles | jq '.[][].RoleName' | grep NodeInstanceRole | wc -l`
+for ((i=1; i<=${INS_NUM}; i++)); do
+INS_ROLENAME=`aws iam list-roles | jq -r '.[][].RoleName' | grep nodegroup | sed -n ${i}p`
+aws iam attach-role-policy \
+ --role-name ${INS_ROLENAME} \
+ --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
+
+echo ${i}'번째 인스턴스Role에 정책 연결 성공.'
+done
+
+>>>>>>> team4/main
 ## jenkins namespace 생성
 kubectl create namespace jenkins
 
@@ -171,8 +185,13 @@ controller:
   jenkinsWar: "/usr/share/jenkins/jenkins.war"
   resources:
     requests:
+<<<<<<< HEAD
       cpu: "50m"
       memory: "256Mi"
+=======
+      cpu: "1000m"
+      memory: "1024Mi"
+>>>>>>> team4/main
     limits:
       cpu: "2000m"
       memory: "4096Mi"
@@ -195,6 +214,10 @@ controller:
     annotations:
   # Route53 서비스용 annotation 추가
       external-dns.alpha.kubernetes.io/hostname: jenkins.${hostzone}
+<<<<<<< HEAD
+=======
+      alb.ingress.kubernetes.io/group.name: t4route
+>>>>>>> team4/main
       kubernetes.io/ingress.class: alb
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/target-type: instance
@@ -411,11 +434,19 @@ agent:
   runAsGroup:
   resources:
     requests:
+<<<<<<< HEAD
       cpu: "512m"
       memory: "512Mi"
     limits:
       cpu: "512m"
       memory: "512Mi"
+=======
+      cpu: "1024m"
+      memory: "1024Mi"
+    limits:
+      cpu: "4096m"
+      memory: "4096Mi"
+>>>>>>> team4/main
   alwaysPullImage: false
   podRetention: "Never"
   showRawYaml: true
@@ -532,4 +563,26 @@ echo '>>>>>> Install jenkins with Helm <<<<<<'
 helm install jenkins -n jenkins -f Jenkins/jenkins-values.yaml jenkinsci/jenkins
 echo ''
 echo '## Install Jenkins Finished ##'
+<<<<<<< HEAD
 
+=======
+echo ''
+
+## ecr 로그인 처리까지
+echo '>>> ECR Login Config Apply'
+echo ''
+cat > Jenkins/configmap.yaml <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: docker-config
+data:
+  config.json: |-
+    {
+       "credsStore": "ecr-login"
+    }
+EOF
+
+kubectl apply -f Jenkins/configmap.yaml -n jenkins
+echo '>>> ECR Login Finished'
+>>>>>>> team4/main

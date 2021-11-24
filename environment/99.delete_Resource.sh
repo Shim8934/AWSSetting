@@ -113,7 +113,11 @@ done
 echo ''
 
 echo '******************* Delete Cluster Start!! '
+<<<<<<< HEAD
 eksctl delte cluster -f t4_cluster.yaml
+=======
+eksctl delete cluster -f t4_cluster.yaml
+>>>>>>> team4/main
 echo ''
 echo '******************* Delete Cluster Finished!! '
 
@@ -160,6 +164,9 @@ rm -rf EX_DNS
 rm -rf CSI
 rm -rf ALB
 
+<<<<<<< HEAD
 eksctl delete cluster -f t4_cluster.yaml
 
+=======
+>>>>>>> team4/main
 echo '>> Delete Resource, Stack Finished '

@@ -72,6 +72,10 @@ metadata:
   namespace: argocd
   annotations:
     kubernetes.io/ingress.class: alb
+<<<<<<< HEAD
+=======
+    alb.ingress.kubernetes.io/group.name: t4route
+>>>>>>> team4/main
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/certificate-arn: ${ACM_ARN}
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08

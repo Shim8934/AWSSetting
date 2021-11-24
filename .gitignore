@@ -11,9 +11,12 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+<<<<<<< HEAD
 #################### intellij
 !.idea/
 
+=======
+>>>>>>> team4/main
 #################### wordpress
 # ignore everything in the root except the "wp-content" directory.
 !wp-content/
@@ -390,4 +393,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+<<<<<<< HEAD
 
+=======
+>>>>>>> team4/main

@@ -5,7 +5,11 @@ metadata:
   labels:
     app: wordpress-app
 spec:
+<<<<<<< HEAD
   replicas: 6
+=======
+  replicas: 3
+>>>>>>> team4/main
   selector:
     matchLabels:
       app: wordpress-app
