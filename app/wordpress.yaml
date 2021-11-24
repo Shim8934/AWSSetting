@@ -31,6 +31,7 @@ spec:
         - name: WORDPRESS_DB_PASSWORD
           value: password
         - name: WORDPRESS_DB_HOST
+<<<<<<< HEAD:app/wordpress.yaml
           value: mysql-clusterip:3306
 
         volumeMounts:
@@ -43,3 +44,9 @@ spec:
             
       nodeSelector:
         alpha.eksctl.io/nodegroup-name: ng-private
+=======
+          value: wordpress.cfgwexy8deov.ap-northeast-2.rds.amazonaws.com
+      nodeSelector:
+        alpha.eksctl.io/nodegroup-name: WPNode
+---
+>>>>>>> 2916bde... 발표용 소스 최적화 - 형상 관리용:manifest/wordpress/base/wordpress.yaml

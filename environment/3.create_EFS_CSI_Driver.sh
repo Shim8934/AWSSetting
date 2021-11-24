@@ -166,7 +166,20 @@ done
 echo '>>> Download storageclass.yaml & Edit <<<'
 curl -o CSI/EFS/storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
 sed -i "/fileSystemId/c\\  fileSystemId: ${FS_ID}" CSI/EFS/storageclass.yaml
+<<<<<<< HEAD
 cat CSI/EFS/storageclass.yaml
 
 kubectl apply -f CSI/EFS/storageclass.yaml
 
+=======
+sed -i "/fileSystemId/c\\  fileSystemId: ${FS_ID}" ../manifest/jpashop/base/volume.yaml
+sed -i "/fileSystemId/c\\  fileSystemId: ${FS_ID}" ../manifest/wordpress/base/volume.yaml
+echo ''
+echo ">> Edit Service's volume.yaml finished"
+echo 'Check jpashop - volume.yaml'
+cat ../manifest/jpashop/base/volume.yaml 
+echo ''
+echo 'Check worepress - volume.yaml'
+cat ../manifest/wordpress/base/volume.yaml
+echo ''
+>>>>>>> 2916bde... 발표용 소스 최적화 - 형상 관리용
