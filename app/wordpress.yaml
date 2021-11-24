@@ -5,7 +5,11 @@ metadata:
   labels:
     app: wordpress-app
 spec:
+<<<<<<< HEAD:app/wordpress.yaml
   replicas: 2
+=======
+  replicas: 3
+>>>>>>> 74b8339... pod 증가 테스트 완료 3개 base로 최적화:manifest/wordpress/base/wordpress.yaml
   selector:
     matchLabels:
       app: wordpress-app
