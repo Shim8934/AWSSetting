@@ -162,23 +162,10 @@ sleep 2
 done
 ## 파일시스템 생성용 반복문 끝
 
-<<<<<<< HEAD
-## 단계 7 : StorageClass, PVC 배포
-echo '>>> Download storageclass.yaml & Edit <<<'
-curl -o CSI/EFS/storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
-sed -i "/fileSystemId/c\\  fileSystemId: ${FS_ID}" CSI/EFS/storageclass.yaml
-<<<<<<< HEAD
-cat CSI/EFS/storageclass.yaml
-
-kubectl apply -f CSI/EFS/storageclass.yaml
-
-=======
-=======
 ## 단계 7 : StorageClass 배포
 echo '>>> Download storageclass.yaml & Edit <<<'
 curl -o CSI/EFS/storageclass.yaml https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/examples/kubernetes/dynamic_provisioning/specs/storageclass.yaml
 sed -i "/fileSystemId/c\\  fileSystemId: ${FS_ID}" CSI/EFS/storageclass.yaml
->>>>>>> team4/main
 sed -i "/fileSystemId/c\\  fileSystemId: ${FS_ID}" ../manifest/jpashop/base/volume.yaml
 sed -i "/fileSystemId/c\\  fileSystemId: ${FS_ID}" ../manifest/wordpress/base/volume.yaml
 echo ''
@@ -189,7 +176,3 @@ echo ''
 echo 'Check worepress - volume.yaml'
 cat ../manifest/wordpress/base/volume.yaml
 echo ''
-<<<<<<< HEAD
->>>>>>> 2916bde... 발표용 소스 최적화 - 형상 관리용
-=======
->>>>>>> team4/main

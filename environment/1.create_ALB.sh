@@ -112,10 +112,6 @@ sed -i '545,553d' ALB/v2_2_0_full.yaml
 # 단계5-b-3 : 컨트롤러 사양 적용
 echo '>>> apply v2_2_0_full.yaml '
 kubectl apply -f ALB/v2_2_0_full.yaml
-<<<<<<< HEAD
->>>>>>> team4/shimki
-=======
->>>>>>> team4/main
 echo ''
 
 echo '===================== ALB Controller creation Success ====================='
