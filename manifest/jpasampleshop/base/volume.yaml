@@ -1,11 +1,11 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: efs-wordpress
+  name: efs-jpasampleshop
 provisioner: efs.csi.aws.com
 parameters:
   provisioningMode: efs-ap
-  fileSystemId: fs-09d16fd753ef767a0
+  fileSystemId: fs-0a69901fdbe3b9664
   directoryPerms: "700"
   gidRangeStart: "1000" # optional
   gidRangeEnd: "2000" # optional
@@ -14,11 +14,11 @@ parameters:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: wordpress-pvc
+  name: jpasampleshop-pvc
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: efs-wordpress
+  storageClassName: efs-jpasampleshop
   resources:
     requests:
       storage: 1Gi
