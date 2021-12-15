@@ -2,29 +2,29 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: t4ClusterEKS
+  name: GoCloudEKS
   region: ap-northeast-2
   version: "1.20"
 
 vpc:
-  id: "vpc-0120cb38b9cb01faf"  # (optional, must match VPC ID used for each subnet below)
+  id: "vpc-0dbe9934fd20c46b2"  # (optional, must match VPC ID used for each subnet below)
   cidr: "192.168.0.0/16"       # (optional, must match CIDR used by the given VPC)
   nat:
     gateway: "Disable"
   subnets:
     public: 
       public-2a: 
-        id: "subnet-0a74dc9eb91068769"
+        id: "subnet-082f4c3b27c19d5d3"
         cidr: "192.168.0.0/24"
       public-2c: 
-        id: "subnet-09d4a8108e12031bb"
+        id: "subnet-0a99b84ed5c26a49d"
         cidr: "192.168.32.0/24"
     private:
       private-2a:
-        id: "subnet-05c2b2cdcde7c0454"
+        id: "subnet-0fed7ecc5183b4e3e"
         cidr: "192.168.64.0/24" # (optional, must match CIDR used by the given subnet)
       private-2c:
-        id: "subnet-073d68063f1a6604f"
+        id: "subnet-08583e08738fdada9"
         cidr: "192.168.96.0/24"  # (optional, must match CIDR used by the given subnet)
 
 # 기존 생성된 vpc 영역을 사용하는 경우, 사용할 수 없는 속성
