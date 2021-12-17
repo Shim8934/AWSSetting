@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: jpasampleshop
-        image: 963886026253.dkr.ecr.ap-northeast-2.amazonaws.com/team4/jpasampleshop:11
+        image: 963961866076.dkr.ecr.ap-northeast-2.amazonaws.com/team4/jpasampleshop:11
         ports:
         - containerPort: 8080
         env:
@@ -30,7 +30,7 @@ spec:
               name: jpasampleshop-secret
               key: password
         - name: JPASAMPLESHOP_DB_HOST
-          value: jpasampleshop.cfgwexy8deov.ap-northeast-2.rds.amazonaws.com
+          value: jpasampleshop.cjplwm9vjnzz.ap-northeast-2.rds.amazonaws.com
       nodeSelector:
         alpha.eksctl.io/nodegroup-name: JavaNode
 ---
