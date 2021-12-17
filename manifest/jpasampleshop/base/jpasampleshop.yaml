@@ -36,7 +36,7 @@ spec:
               name: jpasampleshop-secret
               key: password
         - name: JPASAMPLESHOP_DB_HOST
-          value: jpasampleshop.cfgwexy8deov.ap-northeast-2.rds.amazonaws.com
+          value: jpasampleshop.cjplwm9vjnzz.ap-northeast-2.rds.amazonaws.com
       nodeSelector:
         alpha.eksctl.io/nodegroup-name: JavaNode
 ---
