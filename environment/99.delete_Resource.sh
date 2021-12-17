@@ -113,7 +113,7 @@ done
 echo ''
 
 echo '******************* Delete Cluster Start!! '
-eksctl delete cluster -f t4_cluster.yaml
+eksctl delete cluster -f GoCloudEKS.yaml
 echo ''
 echo '******************* Delete Cluster Finished!! '
 
