@@ -145,7 +145,7 @@ else
 fi
 
 hostzoneId=`aws route53 list-hosted-zones | jq -r '.HostedZones[] | select(.Name=="'${hostzone}'.") | .Id'`
-ACM_ARN=`aws acm list-certificates | jq -r '.CertificateSummaryList | select(.[].DomainName=="'${hostzone}'") | .[].CertificateArn'`
+ACM_ARN=`aws acm list-certificates | jq -r '.CertificateSummaryList | select(.[].DomainName=="*.'${hostzone}'") | .[].CertificateArn'`
 
 echo ''
 echo 'Domain = '${hostzone}
