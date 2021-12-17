@@ -15,7 +15,6 @@ aws iam attach-role-policy \
 echo ${i}'번째 인스턴스Role에 정책 연결 성공.'
 done
 
->>>>>>> team4/main
 ## jenkins namespace 생성
 kubectl create namespace jenkins
 
