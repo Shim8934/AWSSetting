@@ -1,5 +1,8 @@
-# AWS Cluster Setting
+# AWS Cluster First Setting
 
 Using Shell, Eksctl, Aws Authenticator, Kubernetes, Docker, WordPress, Mysql, Nginx
 
-First setting
+
+# AWS Cluster Second Setting
+
+Using Shell, Eksctl, Aws Authenticator, Kubernetes, Docker, Spring, JPA, Mysql, Slack
