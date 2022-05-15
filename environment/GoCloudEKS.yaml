@@ -7,25 +7,25 @@ metadata:
   version: "1.20"
 
 vpc:
-  id: "vpc-0dc1cc81d016964e7"  # (optional, must match VPC ID used for each subnet below)
+  id: "vpc-03a381856a1b70943"  # (optional, must match VPC ID used for each subnet below)
   cidr: "192.168.0.0/16"       # (optional, must match CIDR used by the given VPC)
   nat:
     gateway: "Disable"
   subnets:
     public: 
       public-2a: 
-        id: "subnet-091cd2b73fd3554d2"
+        id: "subnet-085a33ead012cb313"
         cidr: "192.168.0.0/24"
       public-2c: 
-        id: "subnet-099726cbd04a1c40d"
-        cidr: "192.168.32.0/24"
+        id: "subnet-04646e8a54a8465fd"
+        cidr: "192.168.1.0/24"
     private:
       private-2a:
-        id: "subnet-0bafcf56aaa11e246"
-        cidr: "192.168.64.0/24" # (optional, must match CIDR used by the given subnet)
+        id: "subnet-032ed573d7ae99a26"
+        cidr: "192.168.10.0/24" # (optional, must match CIDR used by the given subnet)
       private-2c:
-        id: "subnet-098c97497107d5a20"
-        cidr: "192.168.96.0/24"  # (optional, must match CIDR used by the given subnet)
+        id: "subnet-08658576208edf4d1"
+        cidr: "192.168.20.0/24"  # (optional, must match CIDR used by the given subnet)
 
 # 기존 생성된 vpc 영역을 사용하는 경우, 사용할 수 없는 속성
 #availabilityZones: 
