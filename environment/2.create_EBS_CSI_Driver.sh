@@ -2,8 +2,8 @@
 
 # https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/ebs-csi.html 참고
 
-CLUSTER_NAME=`eksctl get cluster --output json | jq -r '.[0].metadata.name'`
-AWS_REGION=`eksctl get cluster --output json | jq -r '.[0].metadata.region'`
+CLUSTER_NAME=`eksctl get cluster --output json | jq -r '.[0].Name'`
+AWS_REGION=`eksctl get cluster --output json | jq -r '.[0].Region'`
 VPC_ID=`eksctl get cluster --name ${CLUSTER_NAME} --region ${AWS_REGION} --output json | jq -r '.[0].ResourcesVpcConfig.VpcId'`
 NG_ROLE=`kubectl -n kube-system describe configmap aws-auth | grep rolearn`
 ACCOUNT=${NG_ROLE:24:12}
