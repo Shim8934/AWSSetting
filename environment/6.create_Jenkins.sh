@@ -283,7 +283,7 @@ controller:
     - kubernetes:1.31.1
     - workflow-aggregator:2.6
     - git:4.10.1
-    - configuration-as-code:1.55
+    - configuration-as-code:1414.v878271fc496f
   installLatestPlugins: true
   installLatestSpecifiedPlugins: false
   additionalPlugins: []
