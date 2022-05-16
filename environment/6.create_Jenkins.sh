@@ -280,9 +280,9 @@ controller:
     - 0.0.0.0/0
   extraPorts: []
   installPlugins:
-    - kubernetes:1.30.1
+    - kubernetes:1.31.1
     - workflow-aggregator:2.6
-    - git:4.9.0
+    - git:4.10.1
     - configuration-as-code:1.55
   installLatestPlugins: true
   installLatestSpecifiedPlugins: false
